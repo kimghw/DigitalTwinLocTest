@@ -1,0 +1,28 @@
+{
+  "ID": {
+    "imageID": 1,
+    "shipID": 1,
+    "UserID": 1,
+    "cameraId": 0
+  },
+  "timestamp_ns": 1620000000000000000,
+  "camera": {
+    "width": 1920,
+    "height": 1080,
+    "format": "jpeg",
+    "focal_px": [1000.0, 1000.0],
+    "principal_px": [960.0, 540.0],
+    "exposure_us": 10000,
+    "iso": 100
+  },
+  "pose": {
+    "position_m": [0.0, 0.0, 0.0],
+    "quaternion": [0.0, 0.0, 0.0, 1.0],
+    "zone": {
+      "deck": 1,
+      "compartment": "Main",
+      "zone_id": 1
+    }
+  },
+  "image": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVQI12P4//8/AAX+Av7czFnnAAAAAElFTkSuQmCC"
+}
