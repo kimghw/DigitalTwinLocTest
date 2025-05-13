@@ -2141,10 +2141,30 @@ def monitor():
         <a href="/" class="back-link">메인 페이지로 돌아가기</a>
         
         <script>
-            // 2초마다 페이지 새로고침
+            // 5초마다 페이지 새로고침
             setTimeout(function() {{
                 location.reload();
-            }}, 2000);
+            }}, 5000);
+            
+            // 페이지 로드 시간 표시
+            document.addEventListener('DOMContentLoaded', function() {{
+                const now = new Date();
+                const timeString = now.toLocaleTimeString();
+                const dateString = now.toLocaleDateString();
+                
+                const timeDisplay = document.createElement('div');
+                timeDisplay.style.position = 'fixed';
+                timeDisplay.style.top = '10px';
+                timeDisplay.style.right = '10px';
+                timeDisplay.style.padding = '5px 10px';
+                timeDisplay.style.backgroundColor = '#333';
+                timeDisplay.style.color = 'white';
+                timeDisplay.style.borderRadius = '5px';
+                timeDisplay.style.fontSize = '12px';
+                timeDisplay.innerHTML = `마지막 업데이트: ${dateString} ${timeString}`;
+                
+                document.body.appendChild(timeDisplay);
+            }});
         </script>
     </body>
     </html>
