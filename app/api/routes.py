@@ -165,6 +165,12 @@ def index():
     </head>
     <body>
         <h1>DigitalTwinLocTest API Server</h1>
+        
+        <div style="margin-bottom: 20px;">
+            <a href="/unity-code" class="back-link" style="background-color: #4CAF50; margin-right: 10px;">유니티 코드 페이지</a>
+            <a href="/monitor" class="back-link" style="background-color: #2196F3;">모니터링 페이지</a>
+        </div>
+        
         <p>유니티 앱에서 서버로 이미지를 전송하고 그 이미지에서 추출한 데이터를 다시 수신 받는 테스트를 위한 REST API 서버입니다.</p>
         
         <h2>API 엔드포인트</h2>
