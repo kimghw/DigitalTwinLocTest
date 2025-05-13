@@ -921,6 +921,22 @@ def get_recent_requests():
         'recent_requests_html': recent_requests_html
     })
 
+@root_bp.route('/unity-code/download/json-serializer')
+def download_json_serializer():
+    """
+    UnityJsonSerializer.cs 파일 다운로드
+    """
+    try:
+        with open('UnityJsonSerializer.cs', 'r') as file:
+            content = file.read()
+        
+        from flask import Response
+        response = Response(content, mimetype='text/plain')
+        response.headers['Content-Disposition'] = 'attachment; filename=UnityJsonSerializer.cs'
+        return response
+    except Exception as e:
+        return f"파일을 찾을 수 없습니다: {str(e)}", 404
+
 @root_bp.route('/unity-code')
 def unity_code():
     """
@@ -1029,6 +1045,7 @@ def unity_code():
             <p>이 페이지는 유니티 클라이언트에서 서버와 통신하기 위한 데이터 타입과 JSON 직렬화 코드를 제공합니다.</p>
             <p>아래 코드를 유니티 프로젝트에 추가하여 서버와 통신할 수 있습니다.</p>
             <p>자세한 사용법은 <a href="https://github.com/kimghw/DigitalTwinLocTest.git" target="_blank">GitHub 저장소</a>를 참조하세요.</p>
+            <p><a href="/unity-code/download/json-serializer" class="download-link" style="display: inline-block; padding: 10px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px;">UnityJsonSerializer.cs 파일 다운로드</a></p>
         </div>
         
         <div class="tab-container">
