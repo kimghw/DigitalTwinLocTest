@@ -377,7 +377,7 @@ def index():
             <li><code>RandomDelayStrategy</code>: 랜덤 지연</li>
         </ul>
         
-        <p>자세한 사용법은 <a href="https://github.com/yourusername/DigitalTwinLocTest">GitHub 저장소</a>를 참조하세요.</p>
+        <p>자세한 사용법은 <a href="https://github.com/kimghw/DigitalTwinLocTest.git">GitHub 저장소</a>를 참조하세요.</p>
         
         <h2>지연 시나리오 프로파일</h2>
         <div id="current-strategy" style="background-color: #4285F4; color: white; padding: 10px 15px; border-radius: 5px; margin-bottom: 20px; font-weight: bold;">
@@ -920,6 +920,1013 @@ def get_recent_requests():
         'current_strategy': strategy_name,
         'recent_requests_html': recent_requests_html
     })
+
+@root_bp.route('/unity-code')
+def unity_code():
+    """
+    유니티 코드 페이지
+    
+    유니티에서 사용할 데이터 타입과 JSON 직렬화 코드를 제공
+    """
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>유니티 코드 - DigitalTwinLocTest API Server</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                margin: 0;
+                padding: 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+                background-color: #f5f5f5;
+            }
+            h1, h2, h3 {
+                color: #333;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 10px;
+            }
+            pre {
+                background-color: #f0f0f0;
+                padding: 15px;
+                border-radius: 5px;
+                overflow-x: auto;
+                border: 1px solid #ddd;
+                font-family: Consolas, Monaco, 'Andale Mono', monospace;
+                font-size: 14px;
+                line-height: 1.4;
+            }
+            .code-block {
+                margin-bottom: 30px;
+                background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .back-link {
+                display: inline-block;
+                margin-top: 20px;
+                padding: 10px 15px;
+                background-color: #4285F4;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+            .back-link:hover {
+                background-color: #3367d6;
+            }
+            .note {
+                background-color: #fffde7;
+                padding: 15px;
+                border-left: 4px solid #ffd600;
+                margin-bottom: 20px;
+            }
+            .tab-container {
+                margin-bottom: 20px;
+            }
+            .tab {
+                overflow: hidden;
+                border: 1px solid #ccc;
+                background-color: #f1f1f1;
+                border-radius: 5px 5px 0 0;
+            }
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+                font-size: 16px;
+            }
+            .tab button:hover {
+                background-color: #ddd;
+            }
+            .tab button.active {
+                background-color: #4285F4;
+                color: white;
+            }
+            .tabcontent {
+                display: none;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-top: none;
+                border-radius: 0 0 5px 5px;
+                background-color: white;
+            }
+            .tabcontent.active {
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>유니티 코드 - DigitalTwinLocTest API Server</h1>
+        
+        <div class="note">
+            <p>이 페이지는 유니티 클라이언트에서 서버와 통신하기 위한 데이터 타입과 JSON 직렬화 코드를 제공합니다.</p>
+            <p>아래 코드를 유니티 프로젝트에 추가하여 서버와 통신할 수 있습니다.</p>
+            <p>자세한 사용법은 <a href="https://github.com/kimghw/DigitalTwinLocTest.git" target="_blank">GitHub 저장소</a>를 참조하세요.</p>
+        </div>
+        
+        <div class="tab-container">
+            <div class="tab">
+                <button class="tablinks active" onclick="openTab(event, 'DataModels')">데이터 모델</button>
+                <button class="tablinks" onclick="openTab(event, 'ApiClient')">API 클라이언트</button>
+                <button class="tablinks" onclick="openTab(event, 'JsonSerializer')">JSON 직렬화</button>
+                <button class="tablinks" onclick="openTab(event, 'Usage')">사용 예제</button>
+            </div>
+            
+            <div id="DataModels" class="tabcontent active">
+                <h2>데이터 모델 클래스</h2>
+                
+                <div class="code-block">
+                    <h3>데이터 모델 (C#)</h3>
+                    <pre>
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Text;
+
+namespace DigitalTwinLoc
+{
+    [Serializable]
+    public class IdBlock
+    {
+        public int imageID;
+        public int shipID;
+        public int UserID;
+        public int cameraId;
+    }
+
+    [Serializable]
+    public class CameraBlock
+    {
+        public int width;
+        public int height;
+        public string format = "jpeg";
+        public float[] focal_px = new float[2];
+        public float[] principal_px = new float[2];
+        public int exposure_us;
+        public int iso;
+    }
+
+    [Serializable]
+    public class ZoneBlock
+    {
+        public int deck;
+        public string compartment = "";
+        public int zone_id;
+    }
+
+    [Serializable]
+    public class PoseBlock
+    {
+        public float[] position_m = new float[3];
+        public float[] quaternion = new float[4] { 0, 0, 0, 1 };
+        public ZoneBlock zone = new ZoneBlock();
+    }
+
+    [Serializable]
+    public class FramePacket
+    {
+        public IdBlock ID = new IdBlock();
+        public long timestamp_ns;
+        public CameraBlock camera = new CameraBlock();
+        public PoseBlock pose = new PoseBlock();
+        public string image = "";
+
+        // 이미지 데이터를 Base64 문자열로 변환
+        public void SetImageFromTexture(Texture2D texture)
+        {
+            if (texture == null)
+                return;
+
+            byte[] jpgBytes = texture.EncodeToJPG(90);
+            image = Convert.ToBase64String(jpgBytes);
+        }
+
+        // 현재 시간을 나노초로 설정
+        public void SetCurrentTimestamp()
+        {
+            timestamp_ns = DateTime.UtcNow.Ticks * 100; // Ticks는 100나노초 단위
+        }
+    }
+
+    [Serializable]
+    public class PosePacket
+    {
+        public IdBlock ID = new IdBlock();
+        public long timestamp_ns;
+        public long[] time_stamps = new long[2];
+        public PoseBlock pose = new PoseBlock();
+
+        // 지연 시간 계산 (초 단위)
+        public float GetDelaySeconds()
+        {
+            if (time_stamps == null || time_stamps.Length < 2)
+                return 0f;
+
+            return (time_stamps[1] - time_stamps[0]) / 1_000_000_000f;
+        }
+    }
+}
+</pre>
+                </div>
+            </div>
+            
+            <div id="ApiClient" class="tabcontent">
+                <h2>API 클라이언트 클래스</h2>
+                
+                <div class="code-block">
+                    <h3>API 클라이언트 (C#)</h3>
+                    <pre>
+using System;
+using System.Collections;
+using System.Text;
+using UnityEngine;
+using UnityEngine.Networking;
+
+namespace DigitalTwinLoc
+{
+    public class ApiClient : MonoBehaviour
+    {
+        [Header("서버 설정")]
+        public string serverUrl = "http://localhost:5000";
+        
+        [Header("상태")]
+        public bool isConnected = false;
+        public float lastResponseTime = 0f;
+        public float lastDelayTime = 0f;
+        
+        // 이벤트 델리게이트
+        public delegate void OnPoseResponseDelegate(PosePacket response);
+        public event OnPoseResponseDelegate OnPoseResponse;
+        
+        public delegate void OnErrorDelegate(string errorMessage);
+        public event OnErrorDelegate OnError;
+        
+        // 싱글톤 인스턴스
+        private static ApiClient _instance;
+        public static ApiClient Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    GameObject go = new GameObject("ApiClient");
+                    _instance = go.AddComponent<ApiClient>();
+                    DontDestroyOnLoad(go);
+                }
+                return _instance;
+            }
+        }
+        
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        
+        // 이미지 전송 메서드
+        public void SendImage(FramePacket framePacket)
+        {
+            StartCoroutine(SendImageCoroutine(framePacket));
+        }
+        
+        // 이미지 전송 코루틴
+        private IEnumerator SendImageCoroutine(FramePacket framePacket)
+        {
+            string jsonData = JsonUtility.ToJson(framePacket);
+            
+            using (UnityWebRequest request = new UnityWebRequest(serverUrl + "/api/image", "POST"))
+            {
+                byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+                
+                lastResponseTime = Time.time;
+                yield return request.SendWebRequest();
+                
+                if (request.result == UnityWebRequest.Result.ConnectionError || 
+                    request.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    isConnected = false;
+                    OnError?.Invoke($"Error: {request.error}");
+                    Debug.LogError($"API Error: {request.error}");
+                }
+                else
+                {
+                    isConnected = true;
+                    string responseJson = request.downloadHandler.text;
+                    
+                    try
+                    {
+                        PosePacket response = JsonUtility.FromJson<PosePacket>(responseJson);
+                        lastDelayTime = response.GetDelaySeconds();
+                        OnPoseResponse?.Invoke(response);
+                    }
+                    catch (Exception e)
+                    {
+                        OnError?.Invoke($"JSON 파싱 오류: {e.Message}");
+                        Debug.LogError($"JSON 파싱 오류: {e.Message}");
+                    }
+                }
+            }
+        }
+        
+        // 지연 설정 변경 메서드
+        public void SetDelayConfig(string strategy, Dictionary<string, object> parameters)
+        {
+            StartCoroutine(SetDelayConfigCoroutine(strategy, parameters));
+        }
+        
+        // 지연 설정 변경 코루틴
+        private IEnumerator SetDelayConfigCoroutine(string strategy, Dictionary<string, object> parameters)
+        {
+            // 딕셔너리를 JSON으로 변환하기 위한 간단한 클래스
+            [Serializable]
+            class DelayConfig
+            {
+                public string strategy;
+                public string paramsJson;
+                
+                public string ToJson()
+                {
+                    return $"{{\"strategy\":\"{strategy}\",\"params\":{paramsJson}}}";
+                }
+            }
+            
+            // 파라미터를 JSON 문자열로 변환
+            string paramsJson = "{";
+            int count = 0;
+            foreach (var kvp in parameters)
+            {
+                if (count > 0) paramsJson += ",";
+                
+                if (kvp.Value is string)
+                    paramsJson += $"\"{kvp.Key}\":\"{kvp.Value}\"";
+                else if (kvp.Value is bool)
+                    paramsJson += $"\"{kvp.Key}\":{kvp.Value.ToString().ToLower()}";
+                else
+                    paramsJson += $"\"{kvp.Key}\":{kvp.Value}";
+                
+                count++;
+            }
+            paramsJson += "}";
+            
+            DelayConfig config = new DelayConfig
+            {
+                strategy = strategy,
+                paramsJson = paramsJson
+            };
+            
+            using (UnityWebRequest request = new UnityWebRequest(serverUrl + "/api/delay/config", "POST"))
+            {
+                byte[] bodyRaw = Encoding.UTF8.GetBytes(config.ToJson());
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+                
+                yield return request.SendWebRequest();
+                
+                if (request.result == UnityWebRequest.Result.ConnectionError || 
+                    request.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    Debug.LogError($"지연 설정 변경 오류: {request.error}");
+                }
+                else
+                {
+                    Debug.Log("지연 설정이 변경되었습니다.");
+                }
+            }
+        }
+        
+        // 시나리오 설정 메서드
+        public void SetScenario(int scenarioNumber, float parameter = 0f)
+        {
+            StartCoroutine(SetScenarioCoroutine(scenarioNumber, parameter));
+        }
+        
+        // 시나리오 설정 코루틴
+        private IEnumerator SetScenarioCoroutine(int scenarioNumber, float parameter)
+        {
+            string url = serverUrl + $"/api/delay/scenario/{scenarioNumber}";
+            
+            // 시나리오 1과 5는 추가 파라미터가 필요
+            if (scenarioNumber == 1)
+                url += $"?delay={parameter}";
+            else if (scenarioNumber == 5)
+                url += $"?duration={parameter}";
+            
+            using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+            {
+                request.downloadHandler = new DownloadHandlerBuffer();
+                
+                yield return request.SendWebRequest();
+                
+                if (request.result == UnityWebRequest.Result.ConnectionError || 
+                    request.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    Debug.LogError($"시나리오 설정 오류: {request.error}");
+                }
+                else
+                {
+                    Debug.Log($"시나리오 {scenarioNumber}이(가) 설정되었습니다.");
+                }
+            }
+        }
+    }
+}
+</pre>
+                </div>
+            </div>
+            
+            <div id="JsonSerializer" class="tabcontent">
+                <h2>JSON 직렬화 및 역직렬화</h2>
+                
+                <div class="code-block">
+                    <h3>JSON 파일 관리 (C#)</h3>
+                    <pre>
+using System;
+using System.IO;
+using System.Text;
+using UnityEngine;
+using System.Collections.Generic;
+
+namespace DigitalTwinLoc
+{
+    /// <summary>
+    /// 유니티에서 JSON 직렬화 및 역직렬화를 처리하는 유틸리티 클래스
+    /// </summary>
+    public static class JsonFileManager
+    {
+        // 기본 저장 경로 (유니티 프로젝트의 persistentDataPath)
+        private static string DefaultSavePath => Application.persistentDataPath;
+
+        #region 직렬화 (객체 -> JSON -> 파일)
+
+        /// <summary>
+        /// 객체를 JSON 문자열로 직렬화
+        /// </summary>
+        /// <typeparam name="T">직렬화할 객체 타입</typeparam>
+        /// <param name="obj">직렬화할 객체</param>
+        /// <returns>JSON 문자열</returns>
+        public static string Serialize<T>(T obj) where T : class
+        {
+            try
+            {
+                return JsonUtility.ToJson(obj, true); // true: 보기 좋게 포맷팅
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"직렬화 오류: {ex.Message}");
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 객체를 JSON 파일로 저장
+        /// </summary>
+        /// <typeparam name="T">저장할 객체 타입</typeparam>
+        /// <param name="obj">저장할 객체</param>
+        /// <param name="fileName">파일 이름 (확장자 포함)</param>
+        /// <param name="directory">저장 디렉토리 (기본값: Application.persistentDataPath)</param>
+        /// <returns>성공 여부</returns>
+        public static bool SaveToFile<T>(T obj, string fileName, string directory = null) where T : class
+        {
+            try
+            {
+                // 디렉토리 설정
+                string saveDir = directory ?? DefaultSavePath;
+                
+                // 디렉토리가 없으면 생성
+                if (!Directory.Exists(saveDir))
+                {
+                    Directory.CreateDirectory(saveDir);
+                }
+                
+                // 전체 파일 경로
+                string filePath = Path.Combine(saveDir, fileName);
+                
+                // 객체를 JSON으로 직렬화
+                string jsonData = Serialize(obj);
+                if (string.IsNullOrEmpty(jsonData))
+                {
+                    return false;
+                }
+                
+                // 파일에 저장
+                File.WriteAllText(filePath, jsonData, Encoding.UTF8);
+                
+                Debug.Log($"파일 저장 완료: {filePath}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"파일 저장 오류: {ex.Message}");
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region 역직렬화 (파일 -> JSON -> 객체)
+
+        /// <summary>
+        /// JSON 문자열을 객체로 역직렬화
+        /// </summary>
+        /// <typeparam name="T">역직렬화할 객체 타입</typeparam>
+        /// <param name="jsonData">JSON 문자열</param>
+        /// <returns>역직렬화된 객체</returns>
+        public static T Deserialize<T>(string jsonData) where T : class
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(jsonData))
+                {
+                    Debug.LogError("역직렬화할 JSON 데이터가 비어 있습니다.");
+                    return null;
+                }
+                
+                return JsonUtility.FromJson<T>(jsonData);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"역직렬화 오류: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// JSON 파일에서 객체 불러오기
+        /// </summary>
+        /// <typeparam name="T">불러올 객체 타입</typeparam>
+        /// <param name="fileName">파일 이름 (확장자 포함)</param>
+        /// <param name="directory">파일 디렉토리 (기본값: Application.persistentDataPath)</param>
+        /// <returns>불러온 객체</returns>
+        public static T LoadFromFile<T>(string fileName, string directory = null) where T : class
+        {
+            try
+            {
+                // 디렉토리 설정
+                string loadDir = directory ?? DefaultSavePath;
+                
+                // 전체 파일 경로
+                string filePath = Path.Combine(loadDir, fileName);
+                
+                // 파일이 존재하는지 확인
+                if (!File.Exists(filePath))
+                {
+                    Debug.LogError($"파일을 찾을 수 없습니다: {filePath}");
+                    return null;
+                }
+                
+                // 파일에서 JSON 데이터 읽기
+                string jsonData = File.ReadAllText(filePath, Encoding.UTF8);
+                
+                // JSON 데이터를 객체로 역직렬화
+                T obj = Deserialize<T>(jsonData);
+                
+                Debug.Log($"파일 로드 완료: {filePath}");
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"파일 로드 오류: {ex.Message}");
+                return null;
+            }
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// 데이터 저장 및 로드 예제 클래스
+    /// </summary>
+    public class DataManager : MonoBehaviour
+    {
+        // 파일 이름 상수
+        private const string FRAME_PACKET_FILE = "frame_packet.json";
+        private const string POSE_PACKET_FILE = "pose_packet.json";
+        
+        /// <summary>
+        /// FramePacket을 JSON 파일로 저장
+        /// </summary>
+        /// <param name="framePacket">저장할 FramePacket 객체</param>
+        /// <param name="fileName">파일 이름 (기본값: "frame_packet.json")</param>
+        /// <returns>성공 여부</returns>
+        public bool SaveFramePacket(FramePacket framePacket, string fileName = FRAME_PACKET_FILE)
+        {
+            return JsonFileManager.SaveToFile(framePacket, fileName);
+        }
+        
+        /// <summary>
+        /// JSON 파일에서 FramePacket 불러오기
+        /// </summary>
+        /// <param name="fileName">파일 이름 (기본값: "frame_packet.json")</param>
+        /// <returns>불러온 FramePacket 객체</returns>
+        public FramePacket LoadFramePacket(string fileName = FRAME_PACKET_FILE)
+        {
+            return JsonFileManager.LoadFromFile<FramePacket>(fileName);
+        }
+        
+        /// <summary>
+        /// PosePacket을 JSON 파일로 저장
+        /// </summary>
+        /// <param name="posePacket">저장할 PosePacket 객체</param>
+        /// <param name="fileName">파일 이름 (기본값: "pose_packet.json")</param>
+        /// <returns>성공 여부</returns>
+        public bool SavePosePacket(PosePacket posePacket, string fileName = POSE_PACKET_FILE)
+        {
+            return JsonFileManager.SaveToFile(posePacket, fileName);
+        }
+        
+        /// <summary>
+        /// JSON 파일에서 PosePacket 불러오기
+        /// </summary>
+        /// <param name="fileName">파일 이름 (기본값: "pose_packet.json")</param>
+        /// <returns>불러온 PosePacket 객체</returns>
+        public PosePacket LoadPosePacket(string fileName = POSE_PACKET_FILE)
+        {
+            return JsonFileManager.LoadFromFile<PosePacket>(fileName);
+        }
+        
+        /// <summary>
+        /// 사용 예제: FramePacket 생성 및 저장
+        /// </summary>
+        public void ExampleSaveFramePacket()
+        {
+            // FramePacket 생성
+            FramePacket framePacket = new FramePacket();
+            
+            // ID 설정
+            framePacket.ID.imageID = 12345;
+            framePacket.ID.shipID = 1;
+            framePacket.ID.UserID = 1;
+            framePacket.ID.cameraId = 0;
+            
+            // 타임스탬프 설정
+            framePacket.SetCurrentTimestamp();
+            
+            // 카메라 정보 설정
+            framePacket.camera.width = 1920;
+            framePacket.camera.height = 1080;
+            framePacket.camera.format = "jpeg";
+            framePacket.camera.focal_px[0] = 1000.0f;
+            framePacket.camera.focal_px[1] = 1000.0f;
+            framePacket.camera.principal_px[0] = 960.0f;
+            framePacket.camera.principal_px[1] = 540.0f;
+            
+            // 포즈 정보 설정
+            framePacket.pose.position_m[0] = 1.0f;
+            framePacket.pose.position_m[1] = 2.0f;
+            framePacket.pose.position_m[2] = 3.0f;
+            framePacket.pose.quaternion[0] = 0.0f;
+            framePacket.pose.quaternion[1] = 0.0f;
+            framePacket.pose.quaternion[2] = 0.0f;
+            framePacket.pose.quaternion[3] = 1.0f;
+            framePacket.pose.zone.deck = 1;
+            framePacket.pose.zone.compartment = "Main";
+            framePacket.pose.zone.zone_id = 1;
+            
+            // 파일로 저장
+            bool success = SaveFramePacket(framePacket);
+            
+            if (success)
+            {
+                Debug.Log("FramePacket이 성공적으로 저장되었습니다.");
+                
+                // 저장된 JSON 출력
+                string jsonData = JsonFileManager.Serialize(framePacket);
+                Debug.Log("저장된 JSON 데이터:");
+                Debug.Log(jsonData);
+            }
+        }
+        
+        /// <summary>
+        /// 사용 예제: FramePacket 불러오기
+        /// </summary>
+        public void ExampleLoadFramePacket()
+        {
+            // 파일에서 FramePacket 불러오기
+            FramePacket loadedPacket = LoadFramePacket();
+            
+            if (loadedPacket != null)
+            {
+                Debug.Log("FramePacket이 성공적으로 로드되었습니다.");
+                Debug.Log($"이미지 ID: {loadedPacket.ID.imageID}");
+                Debug.Log($"타임스탬프: {loadedPacket.timestamp_ns}");
+                Debug.Log($"위치: X={loadedPacket.pose.position_m[0]}, Y={loadedPacket.pose.position_m[1]}, Z={loadedPacket.pose.position_m[2]}");
+            }
+        }
+        
+        /// <summary>
+        /// 사용 예제: 여러 FramePacket을 배열로 저장
+        /// </summary>
+        public void ExampleSaveMultipleFramePackets()
+        {
+            // 여러 FramePacket을 저장하기 위한 래퍼 클래스
+            [Serializable]
+            class FramePacketArray
+            {
+                public List<FramePacket> packets = new List<FramePacket>();
+            }
+            
+            // 래퍼 객체 생성
+            FramePacketArray packetArray = new FramePacketArray();
+            
+            // 여러 FramePacket 생성 및 추가
+            for (int i = 0; i < 5; i++)
+            {
+                FramePacket packet = new FramePacket();
+                packet.ID.imageID = 1000 + i;
+                packet.SetCurrentTimestamp();
+                packet.pose.position_m[0] = i * 1.0f;
+                packet.pose.position_m[1] = i * 2.0f;
+                packet.pose.position_m[2] = i * 3.0f;
+                
+                packetArray.packets.Add(packet);
+            }
+            
+            // 배열을 파일로 저장
+            bool success = JsonFileManager.SaveToFile(packetArray, "frame_packets_array.json");
+            
+            if (success)
+            {
+                Debug.Log($"{packetArray.packets.Count}개의 FramePacket이 성공적으로 저장되었습니다.");
+            }
+        }
+        
+        /// <summary>
+        /// 사용 예제: 여러 FramePacket 불러오기
+        /// </summary>
+        public void ExampleLoadMultipleFramePackets()
+        {
+            // 여러 FramePacket을 불러오기 위한 래퍼 클래스
+            [Serializable]
+            class FramePacketArray
+            {
+                public List<FramePacket> packets = new List<FramePacket>();
+            }
+            
+            // 파일에서 배열 불러오기
+            FramePacketArray loadedArray = JsonFileManager.LoadFromFile<FramePacketArray>("frame_packets_array.json");
+            
+            if (loadedArray != null && loadedArray.packets != null)
+            {
+                Debug.Log($"{loadedArray.packets.Count}개의 FramePacket이 성공적으로 로드되었습니다.");
+                
+                // 각 패킷 정보 출력
+                for (int i = 0; i < loadedArray.packets.Count; i++)
+                {
+                    FramePacket packet = loadedArray.packets[i];
+                    Debug.Log($"패킷 {i}: ID={packet.ID.imageID}, 위치=({packet.pose.position_m[0]}, {packet.pose.position_m[1]}, {packet.pose.position_m[2]})");
+                }
+            }
+        }
+    }
+}
+</pre>
+                </div>
+            </div>
+            
+            <div id="Usage" class="tabcontent">
+                <h2>사용 예제</h2>
+                
+                <div class="code-block">
+                    <h3>기본 사용법 (C#)</h3>
+                    <pre>
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using DigitalTwinLoc;
+
+public class ImageSender : MonoBehaviour
+{
+    [Header("카메라 설정")]
+    public Camera captureCamera;
+    public int captureWidth = 1280;
+    public int captureHeight = 720;
+    
+    [Header("UI 요소")]
+    public Text statusText;
+    public Text delayText;
+    public RawImage previewImage;
+    
+    [Header("전송 설정")]
+    public float sendInterval = 1.0f;
+    public bool autoSend = true;
+    
+    private float nextSendTime = 0f;
+    private Texture2D captureTexture;
+    
+    void Start()
+    {
+        // 캡처 텍스처 초기화
+        captureTexture = new Texture2D(captureWidth, captureHeight, TextureFormat.RGB24, false);
+        
+        // API 클라이언트 이벤트 등록
+        ApiClient.Instance.OnPoseResponse += OnPoseReceived;
+        ApiClient.Instance.OnError += OnApiError;
+        
+        // 서버 URL 설정
+        ApiClient.Instance.serverUrl = "http://localhost:5000";
+    }
+    
+    void Update()
+    {
+        // 상태 텍스트 업데이트
+        if (statusText != null)
+        {
+            statusText.text = ApiClient.Instance.isConnected ? 
+                "상태: 연결됨" : "상태: 연결 안됨";
+            
+            statusText.color = ApiClient.Instance.isConnected ? 
+                Color.green : Color.red;
+        }
+        
+        // 지연 시간 텍스트 업데이트
+        if (delayText != null)
+        {
+            delayText.text = $"지연 시간: {ApiClient.Instance.lastDelayTime * 1000:F1}ms";
+        }
+        
+        // 자동 전송 모드인 경우 일정 간격으로 이미지 전송
+        if (autoSend && Time.time >= nextSendTime)
+        {
+            CaptureAndSendImage();
+            nextSendTime = Time.time + sendInterval;
+        }
+    }
+    
+    // 이미지 캡처 및 전송
+    public void CaptureAndSendImage()
+    {
+        StartCoroutine(CaptureAndSendCoroutine());
+    }
+    
+    private IEnumerator CaptureAndSendCoroutine()
+    {
+        // 현재 카메라 뷰를 텍스처에 렌더링
+        RenderTexture renderTexture = new RenderTexture(captureWidth, captureHeight, 24);
+        captureCamera.targetTexture = renderTexture;
+        captureCamera.Render();
+        
+        RenderTexture.active = renderTexture;
+        captureTexture.ReadPixels(new Rect(0, 0, captureWidth, captureHeight), 0, 0);
+        captureTexture.Apply();
+        
+        captureCamera.targetTexture = null;
+        RenderTexture.active = null;
+        Destroy(renderTexture);
+        
+        // 미리보기 이미지 업데이트
+        if (previewImage != null)
+        {
+            previewImage.texture = captureTexture;
+        }
+        
+        // 프레임 패킷 생성
+        FramePacket framePacket = new FramePacket();
+        
+        // ID 설정
+        framePacket.ID.imageID = Random.Range(1, 10000);
+        framePacket.ID.shipID = 1;
+        framePacket.ID.UserID = 1;
+        framePacket.ID.cameraId = 0;
+        
+        // 타임스탬프 설정
+        framePacket.SetCurrentTimestamp();
+        
+        // 카메라 정보 설정
+        framePacket.camera.width = captureWidth;
+        framePacket.camera.height = captureHeight;
+        framePacket.camera.format = "jpeg";
+        framePacket.camera.focal_px[0] = 1000.0f;
+        framePacket.camera.focal_px[1] = 1000.0f;
+        framePacket.camera.principal_px[0] = captureWidth / 2.0f;
+        framePacket.camera.principal_px[1] = captureHeight / 2.0f;
+        
+        // 포즈 정보 설정
+        Transform cameraTransform = captureCamera.transform;
+        
+        // 위치 설정 (미터 단위)
+        framePacket.pose.position_m[0] = cameraTransform.position.x;
+        framePacket.pose.position_m[1] = cameraTransform.position.y;
+        framePacket.pose.position_m[2] = cameraTransform.position.z;
+        
+        // 회전 설정 (쿼터니언)
+        framePacket.pose.quaternion[0] = cameraTransform.rotation.x;
+        framePacket.pose.quaternion[1] = cameraTransform.rotation.y;
+        framePacket.pose.quaternion[2] = cameraTransform.rotation.z;
+        framePacket.pose.quaternion[3] = cameraTransform.rotation.w;
+        
+        // 영역 정보 설정
+        framePacket.pose.zone.deck = 1;
+        framePacket.pose.zone.compartment = "Main";
+        framePacket.pose.zone.zone_id = 1;
+        
+        // 이미지 데이터 설정
+        framePacket.SetImageFromTexture(captureTexture);
+        
+        // 서버로 전송
+        ApiClient.Instance.SendImage(framePacket);
+        
+        yield return null;
+    }
+    
+    // 포즈 응답 수신 처리
+    private void OnPoseReceived(PosePacket posePacket)
+    {
+        Debug.Log($"포즈 수신: X={posePacket.pose.position_m[0]}, Y={posePacket.pose.position_m[1]}, Z={posePacket.pose.position_m[2]}");
+        
+        // 여기에서 수신된 포즈 데이터를 활용하는 코드 작성
+        // 예: 가상 객체 위치 업데이트, UI 표시 등
+    }
+    
+    // API 오류 처리
+    private void OnApiError(string errorMessage)
+    {
+        Debug.LogError($"API 오류: {errorMessage}");
+    }
+    
+    // 지연 시나리오 설정 메서드들
+    public void SetFixedDelay(float delaySeconds)
+    {
+        ApiClient.Instance.SetScenario(1, delaySeconds);
+    }
+    
+    public void SetProgressiveIncreaseDelay()
+    {
+        ApiClient.Instance.SetScenario(2);
+    }
+    
+    public void SetProgressiveDecreaseDelay()
+    {
+        ApiClient.Instance.SetScenario(3);
+    }
+    
+    public void SetStepDelay()
+    {
+        ApiClient.Instance.SetScenario(4);
+    }
+    
+    public void SetNoResponseDelay(float durationSeconds)
+    {
+        ApiClient.Instance.SetScenario(5, durationSeconds);
+    }
+    
+    public void SetRandomDelay()
+    {
+        ApiClient.Instance.SetScenario(6);
+    }
+}
+</pre>
+                </div>
+            </div>
+        </div>
+        
+        <p>자세한 사용법은 <a href="https://github.com/kimghw/DigitalTwinLocTest.git" target="_blank">GitHub 저장소</a>를 참조하세요.</p>
+        
+        <a href="/" class="back-link">메인 페이지로 돌아가기</a>
+        
+        <script>
+            // 탭 기능 구현
+            function openTab(evt, tabName) {
+                var i, tabcontent, tablinks;
+                
+                // 모든 탭 콘텐츠 숨기기
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+                }
+                
+                // 모든 탭 버튼 비활성화
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                
+                // 선택한 탭 활성화
+                document.getElementById(tabName).className += " active";
+                evt.currentTarget.className += " active";
+            }
+        </script>
+    </body>
+    </html>
+    """
+    return html
 
 @root_bp.route('/monitor')
 def monitor():

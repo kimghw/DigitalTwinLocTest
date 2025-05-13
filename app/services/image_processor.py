@@ -1,7 +1,8 @@
 import time
 import base64
 import numpy as np
-import cv2
+# OpenCV 의존성 우회
+# import cv2
 from app.models.frame_packet import FramePacket, IdBlock, CameraBlock, PoseBlock, ZoneBlock
 from app.models.pose_packet import PosePacket
 
@@ -126,9 +127,10 @@ def _extract_pose_data(image_bytes, input_pose=None):
         )
     
     try:
+        # OpenCV 의존성 우회
         # 이미지 데이터를 NumPy 배열로 변환
-        nparr = np.frombuffer(image_bytes, np.uint8)
-        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        # nparr = np.frombuffer(image_bytes, np.uint8)
+        # img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         
         # 기본 위치 및 회전 설정
         position_m = [0.0, 0.0, 0.0]
