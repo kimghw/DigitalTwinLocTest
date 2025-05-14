@@ -2161,7 +2161,7 @@ def monitor():
                 timeDisplay.style.color = 'white';
                 timeDisplay.style.borderRadius = '5px';
                 timeDisplay.style.fontSize = '12px';
-                timeDisplay.innerHTML = `마지막 업데이트: ${dateString} ${timeString}`;
+                timeDisplay.innerHTML = '마지막 업데이트: ' + dateString + ' ' + timeString;
                 
                 document.body.appendChild(timeDisplay);
             }});
